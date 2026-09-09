@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+artifacts/
+data/sentiment_labelled_sentences/
+.ipynb_checkpoints/
+.DS_Store

@@ -13,8 +13,14 @@ The workflow covers:
 - training diagnostics and independent test evaluation; and
 - reusable prediction helpers for new review text.
 
-The portfolio case study reports an evaluation accuracy of **81.1%**, ROC AUC of **0.894**, and test loss of **0.426** from the original experiment. Exact results can vary with the TensorFlow version, random seed, and data split.
+The completed experiment reports held-out accuracy of **79.33%**, ROC AUC of **0.8518**, and binary cross-entropy loss of **0.5925** using the restored best model. Exact results can vary with the TensorFlow version, random seed, and data split.
 
+## Portfolio artifacts
+
+- [Rendered analysis notebook](notebook/analysis.html)
+- [Portfolio report](reports/sentiment-intelligence-report.pdf)
+
+The public repository includes the rendered notebook and report while intentionally excluding the working `.ipynb` file, restricted source data, local paths, and academic grading material.
 ## Repository structure
 
 ```text
@@ -22,7 +28,10 @@ sentiment-intelligence/
 ├── data/
 │   └── README.md
 ├── src/
+│   ├── data.py
 │   └── train.py
+├── tests/
+│   └── test_data.py
 ├── .gitignore
 ├── LICENSE
 ├── README.md
@@ -46,6 +55,12 @@ sentiment-intelligence/
    ```
 
 The script writes the trained model, tokenizer, metrics, and training history to `artifacts/`.
+
+Run the data-quality tests with:
+
+```bash
+pytest tests/ -v --tb=short
+```
 
 ## Model
 

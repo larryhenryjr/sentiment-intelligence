@@ -19,35 +19,14 @@ from tensorflow.keras.layers import LSTM, Bidirectional, Dense, Dropout, Embeddi
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
 
+from data import load_dataset
+
 SEED = 42
-SOURCE_FILES = {
-    "amazon": "amazon_cells_labelled.txt",
-    "imdb": "imdb_labelled.txt",
-    "yelp": "yelp_labelled.txt",
-}
-
-
 def set_seed(seed: int = SEED) -> None:
     os.environ["PYTHONHASHSEED"] = str(seed)
     random.seed(seed)
     np.random.seed(seed)
     tf.random.set_seed(seed)
-
-
-def load_dataset(data_dir: Path) -> pd.DataFrame:
-    frames: list[pd.DataFrame] = []
-    for source, filename in SOURCE_FILES.items():
-        path = data_dir / filename
-        if not path.exists():
-            raise FileNotFoundError(f"Missing {path}. See data/README.md for setup.")
-        frame = pd.read_csv(path, sep="\t", names=["text", "label"], quoting=3)
-        frame["source"] = source
-        frames.append(frame)
-
-    dataset = pd.concat(frames, ignore_index=True).dropna()
-    dataset["text"] = dataset["text"].astype(str).str.strip()
-    dataset["label"] = dataset["label"].astype(int)
-    return dataset[dataset["text"].ne("")].drop_duplicates(subset=["text"]).reset_index(drop=True)
 
 
 def build_model(vocabulary_size: int, sequence_length: int) -> Sequential:
